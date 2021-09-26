@@ -12,26 +12,30 @@ export default class PortfolioManager extends Component {
       portfolioItems: []
     };
 
-    this.handleSuccessfulFormSubmission = this.handleSuccessfulFormSubmission.bind(this);
-    this.handleFormSubmuissionError = this.handleFormSubmuissionError.bind(this);
+    this.handleSuccessfulFormSubmission = this.handleSuccessfulFormSubmission.bind(
+      this
+    );
+    this.handleFormSubmissionError = this.handleFormSubmissionError.bind(this);
   }
 
   handleSuccessfulFormSubmission(portfolioItem) {
-    // TODO
-    // update the portfolioItems state
-    // and add the portfolioItem to the list
+    this.setState({
+      portfolioItems: [portfolioItem].concat(this.state.portfolioItems)
+    });
   }
 
-
-  handleFormSubmuissionError(error) {
+  handleFormSubmissionError(error) {
     console.log("handleFormSubmissionError error", error);
   }
 
   getPortfolioItems() {
     axios
-      .get("https://reagankeith.devcamp.space/portfolio/portfolio_items", {
-        withCredentials: true
-      })
+      .get(
+        "https://reagankeith.devcamp.space/portfolio/portfolio_items?order_by=created_at&direction=desc",
+        {
+          withCredentials: true
+        }
+      )
       .then(response => {
         this.setState({
           portfolioItems: [...response.data.portfolio_items]
@@ -52,12 +56,12 @@ export default class PortfolioManager extends Component {
         <div className="left-column">
           <PortfolioForm
             handleSuccessfulFormSubmission={this.handleSuccessfulFormSubmission}
-            handleFormSubmuissionError={this.handleFormSubmuissionError}
+            handleFormSubmissionError={this.handleFormSubmissionError}
           />
         </div>
 
         <div className="right-column">
-          <PortfolioSidebarList data={this.state.portfolioItems}/>
+          <PortfolioSidebarList data={this.state.portfolioItems} />
         </div>
       </div>
     );
