@@ -3,7 +3,7 @@
     grid-template-columns: 1fr;
     padding: 42px;
 
-    @include imput-element();
+    @include input-element();
     input {
         margin-bottom: 0px;
     }
